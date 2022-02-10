@@ -1,45 +1,58 @@
 <main class='bg-cyan-100 flex flex-col h-screen'>
-<div class='calculator-container flex flex-col bg-white w-72 rounded-xl shadow-2xl'>
-  <div class='input flex flex-col justify-around w-full min-h-max'>
-    <div class='input flex flex-col w-5/6 mx-auto mt-5'>
-      <label class='text-gray-500 text-sm font-semibold font-mono tracking-tighter'>Bill</label>
-      <input type='number' class='border-2 border-teal-400 text-teal-800 font-mono font-semibold rounded-md py-1 px-2 mt-1'>
-    </div>
-    <div class='input flex flex-col w-5/6 mx-auto mt-5'>
-      <label class='text-gray-500 text-sm font-semibold font-mono tracking-tighter'>Select Tip %</label>
-      <div class='buttons-container grid grid-cols-3 gap-3 py-3'>
-        <button class='bg bg-teal-800 rounded-md py-1 text-teal-100 font-semibold font-mono text-lg hover:bg-teal-100 hover:text-teal-800'>5%</button>
-        <button class='bg bg-teal-800 rounded-md py-1 text-teal-100 font-semibold font-mono text-lg hover:bg-teal-100 hover:text-teal-800'>10%</button>
-        <button class='bg bg-teal-800 rounded-md py-1 text-teal-100 font-semibold font-mono text-lg hover:bg-teal-100 hover:text-teal-800'>15%</button>
-        <button class='bg bg-teal-800 rounded-md py-1 text-teal-100 font-semibold font-mono text-lg hover:bg-teal-100 hover:text-teal-800'>25%</button>
-        <button class='bg bg-teal-800 rounded-md py-1 text-teal-100 font-semibold font-mono text-lg hover:bg-teal-100 hover:text-teal-800'>50%</button>
-        <input type='number' class='border-2 border-teal-400 rounded-md py-1 px-2 font-semibold text-center font-mono text-teal-800' placeholder='Custom'>
+<div class="h-full flex flex-col justify-center mx-auto">
+  <div class='calculator-container flex flex-col bg-white w-72  rounded-xl shadow-2xl sm:flex-row sm:w-max'>
+    <div class='input flex flex-col justify-around sm:w-80'>
+      <div class='input flex flex-col w-5/6 mx-auto mt-5'>
+        <label class='text-gray-500 text-sm font-semibold font-mono tracking-tighter'>
+          Bill
+        </label>
+        <input [(ngModel)]='bill' autocomplete='off' type='number' class='border-2 border-teal-400 text-teal-800 font-mono font-semibold rounded-md py-1 px-2 mt-1'>
+      </div>
+      <div class='input flex flex-col w-5/6 mx-auto mt-5'>
+        <label class='text-gray-500 text-sm font-semibold font-mono tracking-tighter'>
+          Select Tip {{tip}} %
+        </label>
+        <div class='buttons-container grid grid-cols-3 gap-3 py-3'>
+          <button (click)="setTip(5)" class='bg bg-teal-800 rounded-md py-1 text-teal-100 font-semibold font-mono text-lg hover:bg-teal-100 hover:text-teal-800'>5%</button>
+          <button (click)="setTip(10)" class='bg bg-teal-800 rounded-md py-1 text-teal-100 font-semibold font-mono text-lg hover:bg-teal-100 hover:text-teal-800'>10%</button>
+          <button (click)="setTip(15)" class='bg bg-teal-800 rounded-md py-1 text-teal-100 font-semibold font-mono text-lg hover:bg-teal-100 hover:text-teal-800'>15%</button>
+          <button (click)="setTip(25)" class='bg bg-teal-800 rounded-md py-1 text-teal-100 font-semibold font-mono text-lg hover:bg-teal-100 hover:text-teal-800'>25%</button>
+          <button (click)="setTip(50)" class='bg bg-teal-800 rounded-md py-1 text-teal-100 font-semibold font-mono text-lg hover:bg-teal-100 hover:text-teal-800'>50%</button>
+          <input type='number' min="0" max="100" [(ngModel)]='tip' autocomplete='off' class='border-2 border-teal-400 rounded-md py-1 px-2 font-semibold text-center font-mono text-teal-800' placeholder='Custom'>
+        </div>
+      </div>
+      <div class='input flex flex-col w-5/6 mx-auto mt-5 mb-9'>
+        <label class='text-gray-500 text-sm font-semibold font-mono tracking-tighter'>Number of People</label>
+        <input type='number' [(ngModel)]='quantity' autocomplete='off' class='border-2 border-teal-400 text-teal-800 font-mono font-semibold rounded-md py-1 px-2 mt-1'>
       </div>
     </div>
-    <div class='input flex flex-col w-5/6 mx-auto mt-5 mb-9'>
-      <label class='text-gray-500 text-sm font-semibold font-mono tracking-tighter'>Number of People</label>
-      <input type='number' class='border-2 border-teal-400 text-teal-800 font-mono font-semibold rounded-md py-1 px-2 mt-1'>
-    </div>
-  </div>
-  <div class='display flex flex-col bg-teal-800 w-full h-full rounded-xl'>
-    <div class='first-element'>
-      <div class='tipAmount flex justify-between w-5/6 mx-auto pt-10 min-w-min'>
-        <p class='text-teal-100 font-mono font-semibold text-sm'>Tip Amount <span class='block text-gray-400 font-mono text-xs font-semibold pt-1'>/ person</span></p>
-        <label class='text-teal-500 font-mono font-bold text-4xl'>$0.00</label>
+    <div class='display flex flex-col bg-teal-800 rounded-xl sm:w-80 sm:m-3 sm:justify-between'>
+      <div class='first-element'>
+        <div class='tipAmount flex justify-between w-5/6 mx-auto pt-10 min-w-min'>
+          <p class='text-teal-100 font-mono font-semibold text-sm'>Tip Amount <span class='block text-gray-400 font-mono text-xs font-semibold pt-1'>/ person</span></p>
+          <label class='text-teal-500 font-mono font-bold text-4xl'>
+            {{bill * (tip/100) | currency:'USD' }}
+          </label>
+        </div>
+      
+        <div class='total flex justify-between w-5/6 mx-auto pt-10 min-w-min'>
+          <p class='text-teal-100 font-mono font-semibold text-sm'>Total <span class='block text-gray-400 font-mono text-xs font-semibold pt-1'>/ person</span></p>
+          <label class='text-teal-500 font-mono font-bold text-4xl'>
+            <span *ngIf='(quantity > 0)'>{{(bill + tip) / quantity | currency:'USD'}}</span>
+            <span *ngIf='!(quantity > 0)'>$0.00</span>
+          </label>
+        </div>
       </div>
-    
-      <div class='total flex justify-between w-5/6 mx-auto pt-10 min-w-min'>
-        <p class='text-teal-100 font-mono font-semibold text-sm'>Total <span class='block text-gray-400 font-mono text-xs font-semibold pt-1'>/ person</span></p>
-        <label class='text-teal-500 font-mono font-bold text-4xl'>$0.00</label>
+      <div class='button w-5/6 mx-auto min-w-min mb-7 mt-5'>
+        <button (click)="reset()" class='w-full bg-teal-200 text-teal-800 font-semibold py-1 rounded-md uppercase font-mono'>Reset</button>
       </div>
-    </div>
-    <div class='button w-5/6 mx-auto min-w-min'>
-      <button class='w-full bg-teal-200 text-teal-800 font-semibold py-1 rounded-md uppercase font-mono mb-7'>Reset</button>
     </div>
   </div>
 </div>
-<div class='attribution  text-gray-400'>
-  Challenge by <a href='https://www.frontendmentor.io?ref=challenge' target='_blank'>Frontend Mentor</a>.
-  Coded by <a href='#'>Your Name Here</a>.
+<div class='attribution  text-gray-400 text-sm text-center h-5 relative'>
+  <p class="absolute bottom-0 inset-x-0">
+    Challenge by <a href='https://www.frontendmentor.io?ref=challenge' target='_blank'>Frontend Mentor</a>.
+    Coded by <a href='#'>Your Name Here</a>.
+  </p>
 </div>
 </main>
